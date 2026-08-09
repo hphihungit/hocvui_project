@@ -34,7 +34,7 @@ const Auth = () => {
     e.preventDefault()
 
     console.log(formData); // In ra formData để kiểm tra
-    if(isSignUp) {
+    if (isSignUp) {
       dispatch(signup(formData, history))
     } else {
       dispatch(signin(formData, history))

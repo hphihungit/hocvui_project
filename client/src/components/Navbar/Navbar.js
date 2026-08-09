@@ -4,6 +4,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useDispatch } from "react-redux";
 import decode from 'jwt-decode'
 
+import * as api from "../../api";
 import useStyles from "./styles";
 import studying from "../../images/studying.png";
 
@@ -14,7 +15,12 @@ const Navbar = () => {
   const history = useHistory()
   const location = useLocation()
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await api.logOut();
+    } catch (error) {
+      console.log(error);
+    }
     dispatch({ type: 'LOGOUT' })
 
     history.push('/') 

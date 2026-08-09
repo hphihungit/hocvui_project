@@ -1,10 +1,13 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:5000' })
+const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
+    withCredentials: true
+})
 
 API.interceptors.request.use((req) => {
-    if (localStorage.getItem('profile')) {
-        req.headers.Authorization = `Bearer ${ JSON.parse(localStorage.getItem('profile')).token }`
+    if (localStorage.getItem('profile') && JSON.parse(localStorage.getItem('profile')).token) {
+        req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`
     }
 
     return req;
@@ -19,5 +22,6 @@ export const comment = (value, id) => API.post(`/posts/${id}/commentPost`, { val
 export const updatePost = (id, updatePost) => API.patch(`/posts/${id}`, updatePost)
 export const deletePost = (id) => API.delete(`/posts/${id}`)
 
-export const signIn = (formData) => API.post('/user/signin', formData) 
-export const signUp = (formData) => API.post('/user/signup', formData) 
+export const signIn = (formData) => API.post('/user/signin', formData)
+export const signUp = (formData) => API.post('/user/signup', formData)
+export const logOut = () => API.post('/user/logout') 

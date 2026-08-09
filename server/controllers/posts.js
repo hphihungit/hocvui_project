@@ -20,12 +20,12 @@ export const getPosts = async (req, res) => {
 // PARAMS -> /posts/123 -> id = 123
 
 export const getPostsBySearch = async (req, res) => {
-    const {searchQuery, tags} = req.query;
+    const { searchQuery, tags } = req.query;
 
     try {
         const title = new RegExp(searchQuery, 'i') // test Test TEST => test
 
-        const posts = await PostMessage.find({$or: [{title}, {tags: {$in: tags.split(',')}}]})
+        const posts = await PostMessage.find({ $or: [{ title }, { tags: { $in: tags.split(',') } }] })
 
         res.json({ data: posts })
     } catch (e) {
@@ -62,36 +62,36 @@ export const createPost = async (req, res) => {
         res.status(201).json(newPost)
     } catch (error) {
         console.log(error); // In chi tiết lỗi ra console
-        res.status(409).json({message: error.message})
+        res.status(409).json({ message: error.message })
     }
 }
 
 export const updatePost = async (req, res) => {
-    const {id: _id} = req.params;
+    const { id: _id } = req.params;
     const post = req.body
 
     if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that id');
 
-    const updatePost = await PostMessage.findByIdAndUpdate(_id, post, {new: true});
+    const updatePost = await PostMessage.findByIdAndUpdate(_id, post, { new: true });
 
     res.json(updatePost);
 }
 
 export const deletePost = async (req, res) => {
-    const {id} = req.params
+    const { id } = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No post with that id');
 
     await PostMessage.findByIdAndDelete(id)
     console.log('DELETE')
 
-    res.json({message: 'Post deleted successfully'})
+    res.json({ message: 'Post deleted successfully' })
 }
 
 export const likePost = async (req, res) => {
-    const {id} = req.params
+    const { id } = req.params
 
-    if (!req.userId) return res.json({message: 'Không thể xác thực'})
+    if (!req.userId) return res.json({ message: 'Không thể xác thực' })
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No post with that id');
 
@@ -106,7 +106,7 @@ export const likePost = async (req, res) => {
         post.likes = post.likes.filter((id) => id !== String(req.userId))
     }
 
-    const updatePost = await PostMessage.findByIdAndUpdate(id, post, {new: true})
+    const updatePost = await PostMessage.findByIdAndUpdate(id, post, { new: true })
 
     res.json(updatePost);
 }
@@ -119,7 +119,7 @@ export const commentPost = async (req, res) => {
 
     post.comments.push(value)
 
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {new: true})
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true })
 
     res.json(updatedPost);
 }

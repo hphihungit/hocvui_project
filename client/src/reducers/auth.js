@@ -8,7 +8,7 @@ const authReducer = (state = { authData: null }, action) => {
             return { ...state, authData: action?.data };
         case LOGOUT:
             localStorage.clear();
-            
+
             return { ...state, authData: null };
         default:
             return state;
@@ -17,7 +17,7 @@ const authReducer = (state = { authData: null }, action) => {
 
 export default authReducer;
 
-// "You have created a new client application that uses libraries for user authentication or authorization 
-// that are deprecated. New clients must use the new libraries instead. 
-// See the [Migration Guide](https://developers.google.com/identity/gsi/web/guides/gis-migration) 
+// "You have created a new client application that uses libraries for user authentication or authorization
+// that are deprecated. New clients must use the new libraries instead.
+// See the [Migration Guide](https://developers.google.com/identity/gsi/web/guides/gis-migration)
 //     for more information."
