@@ -13,6 +13,7 @@ const Paginate = ({ page }) => {
 
     useEffect(() => {
         if (page) dispatch(getPosts(page));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     return (

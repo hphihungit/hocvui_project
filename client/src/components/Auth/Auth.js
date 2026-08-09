@@ -14,7 +14,6 @@ import { useHistory } from "react-router-dom";
 
 import useStyles from "./styles";
 import Input from "./Input";
-import Icon from "./icon";
 import { signin, signup } from '../../actions/auth.js'
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
@@ -23,7 +22,7 @@ const Auth = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const [formData, setFormData] = useState()
+  const [formData, setFormData] = useState(initialState)
   const dispatch = useDispatch();
   const history = useHistory()
 
@@ -51,15 +50,18 @@ const Auth = () => {
   };
 
   useEffect(() => {
-    window.google.accounts.id.initialize({
-      client_id: '978163070160-18hkbdg4h9o53hr0bodpat2p9538ln89.apps.googleusercontent.com',
-      callback: handleCredentialResponse,
-    });
+    if (window.google?.accounts?.id) {
+      window.google.accounts.id.initialize({
+        client_id: '978163070160-18hkbdg4h9o53hr0bodpat2p9538ln89.apps.googleusercontent.com',
+        callback: handleCredentialResponse,
+      });
 
-    window.google.accounts.id.renderButton(
-      document.getElementById('googleSignInButton'),
-      { theme: 'outline', size: 'large' } // Tham số tùy chỉnh
-    );
+      window.google.accounts.id.renderButton(
+        document.getElementById('googleSignInButton'),
+        { theme: 'outline', size: 'large' }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCredentialResponse = (response) => {

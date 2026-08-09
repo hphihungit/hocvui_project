@@ -19,8 +19,8 @@ const CommentSection = ({post}) => {
         // Gửi bình luận lên server và nhận lại danh sách bình luận mới
         const newComments = await dispatch(commentPost(finalComment, post._id));
 
-        // Cập nhật danh sách bình luận trên UI bằng cách thêm bình luận mới vào
-        setComments([...comments, finalComment]);
+        // Cập nhật danh sách bình luận trên UI bằng cách dùng dữ liệu từ server trả về
+        setComments(newComments);
         setComment(''); // Xóa nội dung trong ô nhập sau khi gửi bình luận
 
         commentsRef.current.scrollIntoView({ behavior: 'smooth' });
